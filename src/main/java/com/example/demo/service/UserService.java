@@ -27,7 +27,7 @@ public class UserService {
         return userRepository.findByIdAndStatus(id, UserStatus.ACTIVE);
     }
 
-    public UserEntity findById(String email) {
+    public UserEntity getByEmail(String email) {
         return userRepository.findByEmailAndStatus(email, UserStatus.ACTIVE)
             .orElseThrow(() -> new ResourceNotFoundException("Users", email));
     }
@@ -53,7 +53,7 @@ public class UserService {
 
     @Transactional
     public UserEntity update(long id, UserUpdateDto userUpdateDto) {
-        UserEntity userEntity = getByIdOrElseThrow(id);
+        UserEntity userEntity = getById(id);
         userEntity.setNickname(userUpdateDto.getNickname());
         userEntity.setAddress(userUpdateDto.getAddress());
         userEntity = userRepository.save(userEntity);

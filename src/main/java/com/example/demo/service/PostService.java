@@ -22,7 +22,7 @@ public class PostService {
     }
 
     public PostEntity create(PostCreateDto postCreateDto) {
-        UserEntity userEntity = userService.getByIdOrElseThrow(postCreateDto.getWriterId());
+        UserEntity userEntity = userService.getById(postCreateDto.getWriterId());
         PostEntity postEntity = new PostEntity();
         postEntity.setWriter(userEntity);
         postEntity.setContent(postCreateDto.getContent());
@@ -31,7 +31,7 @@ public class PostService {
     }
 
     public PostEntity update(long id, PostUpdateDto postUpdateDto) {
-        PostEntity postEntity = getPostById(id);
+        PostEntity postEntity = getById(id);
         postEntity.setContent(postUpdateDto.getContent());
         postEntity.setModifiedAt(Clock.systemUTC().millis());
         return postRepository.save(postEntity);
