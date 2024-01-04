@@ -38,19 +38,8 @@ public class UserServiceTest {
     private UserService userService;
     @MockBean
     private JavaMailSender javaMailSender;
-
     @Autowired
     private UserRepository userRepository;
-
-    @Test
-    void beforeDataCheck(){
-        List<UserEntity> all = userRepository.findAll();
-        all.stream()
-                .forEach(user -> {
-                    System.out.println("userData :"+user.getId());
-                });
-    }
-
 
     @Test
     void getByEmail은_ACTIVE_상태인_유저를_찾아올_수_있다(){
@@ -107,6 +96,13 @@ public class UserServiceTest {
                 .build();
 
         BDDMockito.doNothing().when(javaMailSender).send(any(SimpleMailMessage.class));
+
+        userRepository
+                .findAll()
+                .forEach(userEntity -> {
+
+                    System.out.println("userId : "+userEntity.getId());
+                });
 
         //when
         UserEntity result = userService.create(userCreateDto);
